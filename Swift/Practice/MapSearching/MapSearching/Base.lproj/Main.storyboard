@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+    <dependencies>
+        <deployment version="2048" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="MapSearching" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SGE-Zu-aPL"/>
+                        <viewControllerLayoutGuide type="bottom" id="Cm5-02-kma"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="sde-OD-KYf">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r5G-S0-gug">
+                                <rect key="frame" x="137" y="436" width="38" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="38" id="fbB-fK-Ju5"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="cross">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnMenuClick:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ttl-dW-QcR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0cG-EJ-5ia">
+                                <rect key="frame" x="109" y="387" width="48" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.38558064794144142" blue="0.50169832535957526" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Market">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnMarketClick:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FHB-IN-ITI"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lNe-Kf-Jup">
+                                <rect key="frame" x="178" y="387" width="37" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.29373130233020139" blue="0.31360236823718413" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.28047580048441834" green="0.36161931290345606" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Hotel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnHotelClick:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="JdY-0K-R1D"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="sde-OD-KYf" secondAttribute="trailing" id="00g-77-oGA"/>
+                            <constraint firstItem="0cG-EJ-5ia" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="93" id="17E-HD-Lg5"/>
+                            <constraint firstItem="Cm5-02-kma" firstAttribute="top" secondItem="r5G-S0-gug" secondAttribute="bottom" constant="94" id="32g-2w-ose"/>
+                            <constraint firstItem="sde-OD-KYf" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="7Ty-VH-0Cc"/>
+                            <constraint firstItem="sde-OD-KYf" firstAttribute="bottom" secondItem="Cm5-02-kma" secondAttribute="top" id="MxI-Mb-TkS"/>
+                            <constraint firstItem="lNe-Kf-Jup" firstAttribute="baseline" secondItem="0cG-EJ-5ia" secondAttribute="firstBaseline" id="NRY-Ig-n1a"/>
+                            <constraint firstItem="r5G-S0-gug" firstAttribute="top" secondItem="0cG-EJ-5ia" secondAttribute="bottom" constant="19" id="NlQ-8E-DeZ"/>
+                            <constraint firstItem="0cG-EJ-5ia" firstAttribute="baseline" secondItem="lNe-Kf-Jup" secondAttribute="firstBaseline" id="WBK-w8-8CQ"/>
+                            <constraint firstItem="Cm5-02-kma" firstAttribute="top" secondItem="lNe-Kf-Jup" secondAttribute="bottom" constant="151" id="Yw2-U0-4AS"/>
+                            <constraint firstItem="sde-OD-KYf" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="fgE-Jb-yOw"/>
+                            <constraint firstItem="lNe-Kf-Jup" firstAttribute="width" secondItem="0cG-EJ-5ia" secondAttribute="width" id="kU2-9X-BA3"/>
+                            <constraint firstItem="r5G-S0-gug" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="137" id="mzO-2H-s6t"/>
+                            <constraint firstItem="lNe-Kf-Jup" firstAttribute="leading" secondItem="0cG-EJ-5ia" secondAttribute="trailing" constant="21" id="puh-wI-65A"/>
+                            <constraint firstItem="lNe-Kf-Jup" firstAttribute="height" secondItem="0cG-EJ-5ia" secondAttribute="height" id="wTq-TW-qk4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="btnHotel" destination="lNe-Kf-Jup" id="lpB-Nr-q3y"/>
+                        <outlet property="btnMarket" destination="0cG-EJ-5ia" id="fdK-ip-5el"/>
+                        <outlet property="btnMenu" destination="r5G-S0-gug" id="QrF-jS-JVO"/>
+                        <outlet property="mapReview" destination="sde-OD-KYf" id="UTF-6c-VqV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="74" y="367"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="cross" width="256" height="256"/>
+    </resources>
+</document>
