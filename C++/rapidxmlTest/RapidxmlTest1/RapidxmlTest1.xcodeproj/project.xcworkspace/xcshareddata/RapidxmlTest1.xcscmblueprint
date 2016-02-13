@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D2F9F20AC0AB5AFAC969BBA29AD40F26EF0B7D58",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "D2F9F20AC0AB5AFAC969BBA29AD40F26EF0B7D58" : 0,
+    "F8DBDA3133A59E0A98C07B425780E5AA0470DB8A" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "B8EEDB2A-3369-4B37-90E3-51B8FAB083E6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "D2F9F20AC0AB5AFAC969BBA29AD40F26EF0B7D58" : "Cpp\/",
+    "F8DBDA3133A59E0A98C07B425780E5AA0470DB8A" : "..\/30862-proj2"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "RapidxmlTest1",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "rapidxmlTest\/RapidxmlTest1\/RapidxmlTest1.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/autumn22222\/Cpp.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D2F9F20AC0AB5AFAC969BBA29AD40F26EF0B7D58"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/autumn22222\/30862-proj2.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F8DBDA3133A59E0A98C07B425780E5AA0470DB8A"
+    }
+  ]
+}
