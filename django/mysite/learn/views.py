@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render
 from django.http import HttpResponse
 
@@ -8,7 +10,7 @@ from django.core.urlresolvers import reverse
 # create view here
 
 def index(request):
-	return HttpResponse(u"欢迎光临 first test for add calculation")
+	return HttpResponse(u"welcome first test for add calculation")
 
 def add1(request):             # /add/?a=4&b=5
 	a = request.GET.get('a', 0)

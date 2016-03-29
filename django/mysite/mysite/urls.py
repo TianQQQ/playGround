@@ -8,11 +8,11 @@ urlpatterns = [
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-
 	url(r'^$', learn_views.index),           # from learn new welcome
-	url(r'^home1$', tmpl_views.home1, name='home1'),
+  	url(r'^home1$', tmpl_views.home1, name='home1'),
 	url(r'^home2$', tmpl_views.home2, name='home2'),
 	url(r'^home3$', tmpl_views.home3, name='home3'),
+	url(r'^home4$', tmpl_views.home4, name='home3'),
 
 	url(r'^add1', learn_views.add1, name='add1'),    # add function,
 	# name = 'add' means to home/add

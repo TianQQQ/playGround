@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 
 # Create your views here.
@@ -13,3 +14,7 @@ def home2(request):
 def home3(request):
     TutorialList = ["HTML", "CSS", "jQuery", "Python", "Django"]
     return render(request, 'home3.html', {'TutorialList': TutorialList})
+
+def home4(request):
+    List = map(str, range(100))# 一个长度为100的 List
+    return render(request, 'home4.html', {'List': List})

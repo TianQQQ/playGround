@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>这是一个loop的测试</title>
+</head>
+<body>
+
+
+    {% for item in List %}
+        {{ item }}{% if not forloop.last%},{% endif %}
+    {% endfor %}
+    # 判断最后一个符号如果是','则不要
+
+</body>
+</html>
