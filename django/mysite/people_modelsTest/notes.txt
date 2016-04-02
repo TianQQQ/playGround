@@ -1,0 +1,7 @@
+django-admin.py startproject learn_models # 新建一个项目
+cd learn_models # 进入到该项目的文件夹
+django-admin.py startapp people # 新建一个 people 应用（app)
+
+# 同步数据库
+python manage.py makemigrations
+python manage.py migrate
