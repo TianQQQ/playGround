@@ -16,7 +16,7 @@ def add1(request):             # /add/?a=4&b=5
 	a = request.GET.get('a', 0)
 	b = request.GET.get('b', 0) # 当没有a传递时， a默认为0
 	c = int(a)+int(b)
-	return HttpResponse('we can get a+b = ' + str(c))
+	return HttpResponse('We can get a+b = ' + str(c))
 
 def add2(request, a, b):       #  /add/3/4/
 	c = int(a) + int(b)

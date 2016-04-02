@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
-
+from django.http import HttpResponse
 # Create your views here.
 
 def home(request):
@@ -18,3 +18,15 @@ def home3(request):
 def home4(request):
     List = map(str, range(100))# 一个长度为100的 List
     return render(request, 'home4.html', {'List': List})
+
+###################################################################
+def form(request):
+    return render(request, 'form.html')
+
+def add(request):
+    a = request.GET['a']
+    b = request.GET['b']
+    a = int(a)
+    b = int(b)
+    return HttpResponse(str(a+b))
+###################################################################
