@@ -1,75 +1,93 @@
-django-admin.py startproject learn_models # 新建一个项目
-cd learn_models # 进入到该项目的文件夹
-django-admin.py startapp people # 新建一个 people 应用（app)
 
-# 同步数据库
-python manage.py makemigrations
-python manage.py migrate
-
-$ python manage.py shell
-
->>> from people.models import Person
->>> Person.objects.create(name="WeizhongTu", age=24)
-<Person: Person object>
->>>
-
->>> Person.objects.get(name="WeizhongTu")
-<Person: Person object>
->>>
-
-
-新建一个对象的方法有以下几种：
-
-Person.objects.create(name=name,age=age)
-
-p = Person(name="WZ", age=23)
-
-p.save()
-
-p = Person(name="TWZ")
-
-p.age = 23
-
-p.save()
-
-Person.objects.get_or_create(name="WZT", age=23)
-
-这种方法是防止重复很好的方法，但是速度要相对慢些，返回一个元组，第一个为Person对象，第二个为True或False, 新建时返回的是True, 已经存在时返回False.
-
-
-
-获取对象有以下方法：
-
-Person.objects.all()
-
-Person.objects.all()[:10] 切片操作，获取10个人，不支持负索引，切片可以节约内存
-
-Person.objects.get(name=name)
+>>> from course.models import Section
+>>> s = Section.objects.get(id=1)
+>>> s.all_students()
+[<User: Course_Manager>, <User: Root>, <User: System>, <User: qiu58@purdue.edu>]
+>>> sys = s.all_students()[3]
+>>> sys.student.remove(sys)
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+AttributeError: 'User' object has no attribute 'student'
+>>> sys.student.remove([sys])
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+AttributeError: 'User' object has no attribute 'student'
+>>> s.student.remove([sys])
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+  File "/Library/Python/2.7/site-packages/django/db/models/fields/related.py", line 988, in remove
+    self._remove_items(self.source_field_name, self.target_field_name, *objs)
+  File "/Library/Python/2.7/site-packages/django/db/models/fields/related.py", line 1121, in _remove_items
+    old_ids.add(obj)
+TypeError: unhashable type: 'list'
+>>> sys
+<User: qiu58@purdue.edu>
+>>> s.student.remove([sys])
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+  File "/Library/Python/2.7/site-packages/django/db/models/fields/related.py", line 988, in remove
+    self._remove_items(self.source_field_name, self.target_field_name, *objs)
+  File "/Library/Python/2.7/site-packages/django/db/models/fields/related.py", line 1121, in _remove_items
+    old_ids.add(obj)
+TypeError: unhashable type: 'list'
+>>> s.remove_students.remove([sys])
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+AttributeError: 'function' object has no attribute 'remove'
+>>> s.remove_students([sys])
+>>> s.all_students()
+[<User: Course_Manager>, <User: Root>, <User: System>]
+>>> sys
+<User: qiu58@purdue.edu>
+>>> s.section_student_search(sys)
+False
+>>> s.section_student_search(s.all_students()[0])
+True
 
 
 
-get是用来获取一个对象的，如果需要获取满足条件的一些人，就要用到filter
-
-Person.objects.filter(name="abc") # 等于Person.objects.filter(name__exact="abc") 名称严格等于 "abc" 的人
-
-Person.objects.filter(name__iexact="abc") # 名称为 abc 但是不区分大小写，可以找到 ABC, Abc, aBC，这些都符合条件
 
 
-
-Person.objects.filter(name__contains="abc") # 名称中包含 "abc"的人
-
-Person.objects.filter(name__icontains="abc") #名称中包含 "abc"，且abc不区分大小写
+from source.time_ult import fn_timer
+    @fn_timer
 
 
 
-Person.objects.filter(name__regex="^abc") # 正则表达式查询
+import sys; print('Python %s on %s' % (sys.version, sys.platform))
+import django; print('Django %s' % django.get_version())
+sys.path.extend(['/Users/tianqiu/Desktop/WebProgramming/django/ece264site', '/Applications/PyCharm.app/Contents/helpers/pycharm', '/Applications/PyCharm.app/Contents/helpers/pydev'])
+if 'setup' in dir(django): django.setup()
+import django_manage_shell; django_manage_shell.run("/Users/tianqiu/Desktop/WebProgramming/django/ece264site")
+Python 2.7.10 (default, Oct 23 2015, 19:19:21)
+[GCC 4.2.1 Compatible Apple LLVM 7.0.0 (clang-700.0.59.5)] on darwin
+Django 1.8
+/Applications/PyCharm.app/Contents/helpers/pydev/pydev_import_hook.py:21: RemovedInDjango19Warning: The utilities in django.db.models.loading are deprecated in favor of the new application loading system.
+  module = self._system_import(name, *args, **kwargs)
 
-Person.objects.filter(name__iregex="^abc")# 正则表达式不区分大小写
-
-
-
-filter是找出满足条件的，当然也有排除符合某条件的
-
-Person.objects.exclude(name__contains="WZ") # 排除包含 WZ 的Person对象
-
-Person.objects.filter(name__contains="abc").exclude(age=23) # 找出名称含有abc, 但是排除年龄是23岁的
+>>> from course.models import Course
+>>> c.all_search(c.all_students()[0])
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+NameError: name 'c' is not defined
+>>> c = Course.objects.get()
+>>> c.all_search(c.all_students()[0])
+True
+>>> from django.contrib.auth.models import User
+>>> user =  User.objects.get()
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+  File "/Library/Python/2.7/site-packages/django/db/models/manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Library/Python/2.7/site-packages/django/db/models/query.py", line 338, in get
+    (self.model._meta.object_name, num)
+MultipleObjectsReturned: get() returned more than one User -- it returned 4!
+>>> user =  User.objects.get(id = 4)
+>>> user
+<User: qiu58@purdue.edu>
+>>> c.all_section()
+[<Section: Spring 2016 ECE264-1>]
+>>> c.all_section()[0]
+<Section: Spring 2016 ECE264-1>
+>>> c.all_section()[0].add_holders(user)
+>>> c.all_search(user)
+False

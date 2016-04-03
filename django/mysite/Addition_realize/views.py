@@ -24,6 +24,4 @@ def add2(request, a, b):       #  /add/3/4/
 
 
 def old_add2_redirect(request, a, b):
-    return HttpResponseRedirect(
-        reverse('add2', args=(a, b))
-    )
+	return HttpResponseRedirect(reverse('add2', args=(a, b)))
