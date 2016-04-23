@@ -41,7 +41,8 @@ INSTALLED_APPS = (
 
 	'Addition_realize',
     'tmpl',
-    'people_modelsTest'
+    'people_modelsTest',
+    'blog'
 )
 
 MIDDLEWARE_CLASSES = (
