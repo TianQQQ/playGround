@@ -1,0 +1,276 @@
+<template lang="html">
+  <div class="ui tall stacked segment">
+     <div class="ui center aligned container">
+      <span class="ui label">Location: </span>
+      <div class="ui radio checkbox">
+        <input type="radio" value="sd" id="sd" v-model="checkedPlace">
+        <label for="sd" class="place">San Diego</label>
+      </div>
+      <div class="ui radio checkbox">
+        <input type="radio" value="bj" id="ca" v-model="checkedPlace">
+        <label for="ca" class="place">Beijing</label>
+      </div>
+    </div>
+    <div class="ui center aligned container" v-show="search_tag.length">
+      <span class="ui label">Tags: </span>
+      <div class="ui label" v-for="tag in search_tag">
+        {{ tag }} <i class="delete icon" @click="removeTag(tag)"></i>
+      </div>
+    </div>
+    <div class="ui center aligned container fluid">
+      <div class="ui icon input text">
+        <input type="text" v-model="search_name" placeholder="Search task name..." >
+        <i class="search icon"></i>
+      </div>
+      <div class="ui icon input text">
+        <input type="text" v-model="search_desc" placeholder="Search description..." >
+        <i class="search icon"></i>
+      </div>
+      <div class="ui icon input text">
+        <input type="text" v-model="search_type" placeholder="Search type..." >
+        <i class="search icon"></i>
+      </div>
+    </div>
+    <table class="ui celled striped table">
+      <thead>
+        <tr>
+          <th>Update at</th>
+          <th>Created at</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Created by</th>
+          <th>Notify</th>
+          <th>Location</th>
+          <th>Description</th>
+          <th>Frames</th>
+          <th>Reserved</th>
+          <th>tags</th>
+          <th>Level</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="task in allPages[curPageNum]">
+          <td><date :id="task.update_time"></date></td>
+          <td><date :id="task._id"></date></td>
+          <td>{{ task.name }}</td>
+          <td>{{ task.type }}</td>
+          <td>{{ task.created_by }}</td>
+          <td>{{ task.notify }}</td>
+          <td>{{ task.location }}</td>
+          <td>{{ task.description }}</td>
+          <td>{{ task.total_frames }}</td>
+          <td>{{ task.reserved || 0}}</td>
+          <td>
+            <a class="ui label" v-for="tag in task.tags" @click="addTag(tag)">{{ tag }}</a>
+          </td>
+          <td>
+            <i class="star icon" v-for="star in task.level"></i>
+          </td>
+          <td>
+            <span class="ui label" :class="statusToLabel(task.status)">
+              {{ task.status | titleize }}
+            </span>
+            <a class="mini ui pink button" @click="modalShow(task)" v-if="task.status == 'uploaded'">Ready</a>
+          </td>
+          <td>
+            <router-link :to="'/tasks/' + task._id" class="ui button">Detail</router-link>
+            <a class="ui button" :href="nas_root(task.location) + '/upload/annotation_tasks/' + task._id + '.zip'"
+              target="_blank" v-show="task.status != 'created'">
+              Download
+            </a>
+            <a class="ui button" @click="trySubmit(task)" v-show="task.status != 'created' && task.status != 'uploaded'">Submit</a>
+            <!-- <a class="ui button" :_href="nas_root(task.location) + '/upload/annotation_results/' + task._id + getType(task.type)"
+              target="_blank" v-show="task.status == 'finished' || task.status == 'submited'"
+              data-tooltip="please use dataset-store API to fetch annotation result" data-position="top center" download>
+              Download Result
+            </a> -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button id="pre" @click="movedown"> pre </button>
+    <button id="next" @click="moveup"> next </button>
+    <modal ref="modal" class="ui form" style="padding:20px;">
+      <div class="header">
+        <p>After You change the state to Ready, Beijin will get the data.</p>
+        <p>Are you sure you have uploaded the correct data?</p>
+      </div>
+      <button class="ui red button" @click="updateStatus">
+        Yes, I am Sure!
+      </button>
+      <button class="ui blue button" @click="closeModal">
+        No, I am not!
+      </button>
+    </modal>
+    <div class="ui page dimmer" ref="dimmer">
+      <div class="ui text loader">Processing</div>
+    </div>
+    <input type="file" ref="fileInput" class="hidden" @change="submit()">
+  </div>
+</template>
+
+<script>
+import { request, TaskService, nas_root, backend_host } from '@/services'
+import { statusToLabel } from '.'
+
+export default {
+  data() {
+    return {
+      curPageNum: 0,
+      limit: 10,
+      nas_root,
+      tasks: [],
+      current_task: '',
+      checkedPlace: '',
+      search_name: '',
+      search_desc: '',
+      search_type: '',
+      search_tag: []
+    }
+  },
+  beforeMount() {
+    this.load()
+  },
+  methods: {
+    async load() {
+      let q = []
+      if (this.$route.query.place) {
+        this.checkedPlace = this.$route.query.place
+        q.push( {'location': this.checkedPlace} )
+      }
+      if (this.$route.query.name) {
+        this.search_name = this.$route.query.name
+        q.push( {'name': {'$regex': `${this.search_name}`}} )
+      }
+      if (this.$route.query.desc) {
+        this.search_desc = this.$route.query.desc
+        q.push( {'description': {'$regex': `${this.search_desc}`}} )
+      }
+      if (this.$route.query.type) {
+        this.search_type = this.$route.query.type
+        q.push( {'type': {'$regex': `${this.search_type}`}} )
+      }
+      if (this.$route.query.tag) {
+        this.search_tag = this.$route.query.tag.split(' ')
+        this.search_tag.map((tag) => {
+          q.push( {'tags': { $elemMatch: { '$eq': tag }}} )
+        })
+      }
+      this.tasks = await TaskService.list(q.length ? {'$and': q} : {})
+    },
+    statusToLabel,
+    trySubmit(task) {
+      this.submitting = task
+      this.$refs.fileInput.click()
+    },
+    async updateStatus() {
+      this.$refs.modal.hide()
+      await TaskService.update_status(this.current_task._id, 'ready')
+    },
+    modalShow(task) {
+      this.current_task = task
+      this.$refs.modal.show()
+    },
+    closeModal() {
+      this.$refs.modal.hide()
+    },
+    async submit() {
+      let fileInput = this.$refs.fileInput
+      let task = this.submitting
+      if (fileInput.files[0]) {
+        $(this.$refs.dimmer).dimmer({ closable: false }).dimmer('show')
+        try {
+          let fd = new FormData()
+          fd.append('file', fileInput.files[0])
+          let location = task.location || 'sd'
+          let url = backend_host(location)
+          await request(url + '/submit/' + task._id, fd)
+          this.load()
+        } finally {
+          $(this.$refs.dimmer).dimmer('hide')
+          fileInput.value = ''
+        }
+      }
+    },
+    getType(task_type) {
+      if (task_type === 'contour' || task_type == 'segmentation') {
+        return '.zip'
+      } else {
+        return '.json'
+      }
+    },
+    addTag(tag) {
+      if (!this.search_tag.includes(tag)) {
+        this.search_tag.push(tag)
+        this.submitSearch()
+      }
+    },
+    removeTag(tag) {
+      let index = this.search_tag.indexOf(tag)
+      if (index !== -1) {
+        this.search_tag.splice(index, 1)
+        this.submitSearch()
+      }
+    },
+    submitSearch() {
+      let q = {}
+      if (this.checkedPlace) { q.place = this.checkedPlace }
+      if (this.search_name) { q.name = this.search_name }
+      if (this.search_desc) { q.desc = this.search_desc }
+      if (this.search_type) { q.type = this.search_type }
+      if (this.search_tag) { q.tag = this.tags_text }
+      this.$router.push({ query: q})
+    },
+    moveup() {
+      if (this.curPageNum + 1 < this.totalPageNum)
+        this.curPageNum += 1
+    },
+    movedown() {
+      if (this.curPageNum - 1 >= 0)
+        this.curPageNum -= 1
+    },
+  },
+  computed: {
+    totalPageNum() { return  Math.ceil( this.tasks.length / this.limit ) },
+    allPages() {
+      var cur = {}
+      var i = 0
+      for (i == 0; i < this.totalPageNum; i++)
+        cur[i] = this.tasks.slice(i * this.limit, (i+1) * this.limit)
+      return cur
+    },
+    tags_text() {
+      return this.search_tag.join(' ')
+    }
+  },
+  watch: {
+    '$route.query': 'load',
+    checkedPlace() {
+      this.submitSearch()
+    },
+    search_name() {
+      this.submitSearch()
+    },
+    search_desc() {
+      this.submitSearch()
+    },
+    search_type() {
+      this.submitSearch()
+    }
+  }
+}
+</script>
+
+<style lang="css" scoped>
+.sortable {
+  cursor: pointer;
+  border-bottom: 1px dashed #999;
+}
+.hidden {
+  position: fixed;
+  top: -10000px;
+  opacity: 0;
+}
+</style>

@@ -1,0 +1,40 @@
+
+<!-- Put this in the HTML section in JSFiddle! -->
+
+
+
+<div id="app">
+	<h1>Vue-Paginate v3.4</h1>
+	<paginate name="items" :list="items" :per="10" @class="paginate-list">
+		<table class="ui celled striped table">
+			<thead>
+			<tr>
+				<th>Update at</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr v-for="item in paginated('items')">
+				<td>{{ item }}</td>
+			</tr>
+			</tbody>
+		</table>
+	</paginate>
+	<paginate-links for="items" :show-step-links="true"></paginate-links>
+
+</div>
+
+
+
+
+<script>
+    import VuePaginate from 'vue-paginate'
+
+    new Vue({
+        el: '#app',
+        data: {
+            items: ['Item One', 'Item Two', 'Item Three', 'Item Four', 'Item Five', 'Item Six', 'Item Seven', 'Item Eight', 'Item Nine', 'Item Ten', 'Item Eleven', 'Item Twelve', 'Item Thirteen'],
+            paginate: ['items']
+        }
+    })
+
+</script>

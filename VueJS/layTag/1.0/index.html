@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>VueJS</title>
+	<link rel="stylesheet" href="app.css">
+	<script src="vue.js" ></script>
+	<script src="vue-paginate.js" ></script>
+
+
+</head>
+
+<body>
+
+<div id="app">
+	<h1>Vue-Paginate v3.4</h1>
+	<paginate name="items" :list="items" :per="10" @class="paginate-list">
+		<table class="ui celled striped table">
+			<thead>
+			<tr>
+				<th>Update at</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr v-for="item in paginated('items')">
+				<td>{{ item }}</td>
+			</tr>
+			</tbody>
+		</table>
+	</paginate>
+	<paginate-links for="items" :show-step-links="true"></paginate-links>
+
+</div>
+
+
+
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            items: ['Item One', 'Item Two', 'Item Three', 'Item Four', 'Item Five', 'Item Six', 'Item Seven', 'Item Eight', 'Item Nine', 'Item Ten', 'Item Eleven', 'Item Twelve', 'Item Thirteen'],
+            paginate: ['items']
+        }
+    })
+
+</script>
+
+
+
+</body>
+</html>
