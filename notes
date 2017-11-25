@@ -1,0 +1,327 @@
+===============================================================================================================
+杂项
+
+htop -> linux   top -> unix
+
+Apache HTTP
+
+vmware aws s3 https://cloud.vmware.com/vmc-aws
+    run applications across vSphere-based cloud environments with access to a broad range of AWS services
+    VMware Cloud Foundation, this service integrates vSphere, vSAN and NSX along with VMware vCenter management,
+        and is optimized to run on dedicated, elastic, bare-metal AWS infrastructure.
+
+Docker and vmware
+    Docker Containers are weaker than Virtual Machines, and that’s “Isolation”.
+    Containers are therefore smaller than Virtual Machines and enable faster start up with better performance,
+    less isolation and greater compatibility possible due to sharing of the host’s kernel.
+
+    If application is designed to provide scalability and high availability
+     then containers are the best choice else application can be placed in a virtual machine
+
+jQuery
+    Jqury $(this).hide()
+    load() 方法是简单但强大的 AJAX 方法。 方法从服务器加载数据，并把返回的数据放入被选元素中。
+    $(document).ready(function(){
+      $("#btn1").click(function(){
+        $('#test').load('/example/jquery/demo_test.txt');
+      })
+    })
+
+    $(selector).hide(speed, callback)
+    $("p").hide(1000,function(){
+        alert("The paragraph is now hidden");
+    });
+
+
+DHT distributed hash table 分布式哈系一致性算法 (consistent hashing)
+    其实就是把哈希函数可映射的空间(相当于普通哈希中桶的数目是固定的)固定下来了，比如固定为: 2^n-1，并组织成环的形状
+    每个机器对应着一个n位的ID，并且映射到环中。每个查询键，也是一个 n 位的ID，节点的ID和查询键对应着相同的映射空间。
+    Each node choose a n-bit ID
+      Intention is that they be random Though probably a hash of some fixed info IDs are arranged in a ring
+
+    Each lookup key is also a n-bit ID
+       I.e., the hash of the real lookup key
+       Node IDs and keys occupy the same space!
+
+    http://www.cnblogs.com/hapjin/p/5760463.html
+
+
+
+
+
+_______________________________________________________________________________________________________________
+
+Unifront and Backend
+
+
+================================================================================================
+front
+
+npm run dev
+
+================================================================================================
+backend
+
+python app.py dev
+
+
+ps -fA | grep python
+sudo kill -9 25851
+[1]+  Killed
+python app.py dev
+
+
+===============================================================================================
+Mongo
+
+delete_id are all encapsulated in __init__.py
+
+http://www.jianshu.com/p/a5ed3fef2dcc
+
+sudo service mongod start
+cd dump-20170901-152001/
+mongorestore dataset_v2 -d dataset_v2
+mongo
+help
+show dbs
+use dataset_v2
+show collections
+db.Dataset.find({}).limit(1)
+
+
+-----------------------------------------------------------------------------------------------
+Download new dataset from DAS(Network-attached storage)
+
+
+ssh dataset@runner1
+$ cd mongodb_backup                                                                                                                                                                                                                                                  [10:50:52]
+$ cd hourly                                                                                                                                                                                                                                                          [10:50:56]
+$ cp -r dump-20171005-092001/ /mnt/truenas/scratch/kaizhou
+
+
+in services.js
+//eslint-disable-next-line
+if (process.env.NODE_ENV == 'development') {
+  hostname = 'localhost'
+}
+change hostname to 'dataset' to use the online dataset
+
+
+backend/config/config.ini to initial the db=dataset_v2 and host=localhost
+
+
+-----------------------------------------------------------------------------------------------
+Reference
+
+I want to use mongo for my app, and while I was thinking about designing issues, I came up with question, so what are the advantages/purposes of DBRef?
+
+for example:
+
+> names = ['apple', 'banana', 'orange', 'peach', 'pineapple']
+[ "apple", "banana", "orange", "peach", "pineapple" ]
+> for (i=0; i<5; i++) {
+... db.fruits.insert({_id:i, name:names[i]})
+... }
+> db.fruits.find()
+{ "_id" : 0, "name" : "apple" }
+{ "_id" : 1, "name" : "banana" }
+{ "_id" : 2, "name" : "orange" }
+{ "_id" : 3, "name" : "peach" }
+{ "_id" : 4, "name" : "pineapple" }
+
+> db.basket.insert({_id:1, items:[ {$ref:'fruits', $id:1}, {$ref:'fruits', $id:3} ] })
+> db.basket.find()[0]
+{ "_id" : 1, "items" : [ DBRef("fruits", 1), DBRef("fruits", 3) ] }
+> db.basket.find()[0].items
+[ DBRef("fruits", 1), DBRef("fruits", 3) ]
+> db.basket.find()[0].items[0]
+DBRef("fruits", 1)
+> db.basket.find()[0].items[0].fetch()
+{ "_id" : 1, "name" : "banana" }
+
+
+===============================================================================================
+WebStorm
+
+alt + F12 : terminal
+
+ERR: path /home/tianqiu/package.json -- > cd folder
+                                          npm install
+
+
+
+===============================================================================================
+brewery
+
+/mnt/truenas/scratch/brewery/bin/brewery --install && source ~/.bashrc
+
+===============================================================================================
+Git
+
+git remote -v
+git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
+git fetch upstrea
+git merge upstrea/develop
+
+
+
+git reset --hard HEAD~2
+
+
+---------------------warning
+rm -rf .git
+git init
+
+rm -rf (the submodule folder)
+git submodule update
+===============================================================================================
+Debug
+
+Logging should be open (grey)
+
+
+===============================================================================================
+CSS
+
+. in CSS means it is a class and it can be applied to many elements.
+# in CSS means it is an ID and it can be applied to one element per page.
+
+===============================================================================================
+
+Deployment
+
+
+
+ssh dataset@runner1
+
+$ mongo
+TusimpleRS:PRIMARY> use dataset_v2
+switched to db dataset_v2
+TusimpleRS:PRIMARY> db.getCollection('Benchmark').createIndex({update_time: 1, _id: 1})
+
+
+backend
+$ cd bench
+$ git pull origin develop
+$ sudo systemctl restart dataset-backend.service
+
+
+
+frontend
+$ cd ../infra-unifront
+$ git pull origin develop
+$ git remote add origin https://github.com/TuSimple/infra-unifront.git                                                                                                                                                                                               [16:39:52]
+$ git pull origin develop
+$ npm run build
+
+
+_______________________________________________________________________________________________________________
+
+Vehicle-system
+
+cd infra-vehicle-system/
+cd frontend/simple-backend/
+python server.py
+
+
+cd frontend
+npm run dev
+
+  801  git branch
+  802  git branch frontend_revision
+  803  git branch
+  804  git checkout frontend_revision
+  805  git status
+  806  git add frontend/src/
+  807  git add frontend/simple-backend/
+  808  git status
+  809  git commit -m 'change getWholeMap to getWholeLanes in simulation2'
+  810  git push
+  811  git push --set-upstream origin frontend_revision
+
+
+_______________________________________________________________________________________________________________
+  install software
+
+  980  sudo dpkg -i google-chrome-stable_current_amd64
+  981  sudo dpkg -i google-chrome-stable_current_amd64.deb
+  982  pkexec dpkg -i google-chrome-stable_current_amd64.deb
+  983  su
+  984  exit
+  985  history
+
+
+_______________________________________________________________________________________________________________
+JSON
+
+Python 2.7.12 (default, Nov 19 2016, 06:48:10)
+[GCC 5.4.0 20160609] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import json
+>>> j = json.load(open('../global/get_console_status'))
+>>> j
+{u'status': u'success', u'data': {u'status': 1, u'auto_drived_time': 1242, u'play_button': 1, u'unit_test_flag': False, u'mode': u'u', u'auto_driving': False}}
+>>>
+
+_______________________________________________________________________________________________________________
+
+in network to see whether the get_planner_info is getting something
+if yes:     frontend error
+else:       backend python error
+
+
+_______________________________________________________________________________________________________________
+
+killall chrome
+
+
+================================================================================================================
+VTS Deploy
+
+ssh dataset@runner3
+git pull
+
+➜  infra-vts git:(develop) ls
+backend  doc  frontend  README.md
+➜  infra-vts git:(develop) git branch
+* develop
+➜  infra-vts git:(develop) git checkout feature/Front
+➜  infra-vts git:(feature/Front) sudo systemctl restart vts-backend.service
+
+➜  infra-vts git:(feature/Front) cd frontend
+➜  frontend git:(feature/Front) ls
+➜  frontend git:(feature/Front) npm run build
+
+
+
+===============================================================================================================
+
+all images for docker
+http://registry.tusimple.ai/v2/octopus/tags/list
+
+
+===============================================================================================================
+
+dev-server.js
+
+ var devMiddleware = require('webpack-dev-middleware')(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+ -  quiet: true
+stats: {
+  colors: true,
+  chunks: false
+},
+watchOptions: {
+  aggregateTimeout: 300,
+  poll: 1000
+}
+
+===============================================================================================================
+Cre
+https://tusimplesd.signin.aws.amazon.com/console
+https://s3.console.aws.amazon.com/s3/buckets/tusimple-vts/?region=us-east-1&tab=overview
+User name
+vts
+
+config.yaml
+
