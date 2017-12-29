@@ -71,6 +71,12 @@ sudo kill -9 25851
 python app.py dev
 
 
+
+8080 in use
+killall -9 node
+
+lsof -i tcp:8080
+
 ===============================================================================================
 Mongo
 
@@ -88,6 +94,9 @@ use dataset_v2
 show collections
 db.Dataset.find({}).limit(1)
 
+
+robo 3t cannot open
+https://github.com/Studio3T/robomongo/issues/1385
 
 -----------------------------------------------------------------------------------------------
 Download new dataset from DAS(Network-attached storage)
@@ -164,6 +173,35 @@ git fetch upstrea
 git merge upstrea/develop
 
 
+  364  cd infra-simulation-system
+  365  ls
+  366  gst
+  367  git add frontend/
+  368  gc
+  369  gp
+  370  git push
+  371  git remove
+  372  git mote
+  373  git remote
+  374  gr
+  375  grv
+  376  git fetch
+  377  git push
+  378  git push origin
+  379  git status
+  380  git branch
+  381  git push upstream
+  382  git fetch upstream
+  383  git push upstream
+  384  git branch
+  385  git upstream
+  386  git push upstream/frontend_revision
+  387  git fetch upstream
+  388  git merge upstream/develop
+  389  git push
+  390  git push upstream
+
+
 
 git reset --hard HEAD~2
 
@@ -183,8 +221,8 @@ Logging should be open (grey)
 ===============================================================================================
 CSS
 
-. in CSS means it is a class and it can be applied to many elements.
-# in CSS means it is an ID and it can be applied to one element per page.
+. class and it can be applied to many elements.
+# ID and it can be applied to one element per page.
 
 ===============================================================================================
 
@@ -301,6 +339,9 @@ http://registry.tusimple.ai/v2/octopus/tags/list
 
 
 ===============================================================================================================
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+
 
 dev-server.js
 
@@ -325,3 +366,23 @@ vts
 
 config.yaml
 
+
+===============================================================================================================
+
+./build_sub.sh
+
+./run.sh
+
+  155  pkill -f ros
+  156  pkill -f gzserver
+  157  htop
+  158  ./run.sh
+  159  kill -9 2675
+  160  lsof -i :30800
+  161  htop
+  162  lsof
+  163  su -s
+  164  su
+  165  kill -9 2995
+  166  su -s
+  167  sudo lsof -i :30800
